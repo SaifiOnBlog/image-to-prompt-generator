@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image to Prompt Generator | Convert Images to Text Prompts Free</title>
+    <meta name="description"
+        content="Unlock the power of prompt engineering with our free AI Image to Prompt Generator. Convert any image into a detailed text prompt for Midjourney, Stable Diffusion, and DALL-E 3 instantly.">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI Image to Prompt Generator | Free SEO Tool">
+    <meta property="og:description"
+        content="Reverse engineer any image into a high-quality prompt instantly. No signup required.">
+    <meta property="og:image" content="https://getimagetoprompt.com/assets/images/image-to-prompt-og.jpeg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="canonical" href="https://getimagetoprompt.com" />
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-alt: #4f46e5;
+            --bg-dark: #09090b;
+            --bg-surface: #121216;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-gradient: linear-gradient(to right, #818cf8, #c084fc);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Background Effects */
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            background: var(--text-gradient);
+            padding: 6px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-alt);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-sm {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-lg {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.15rem;
+            border-radius: 12px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-gradient {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Features */
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 4rem 0;
+        }
+
+        .glass-container {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+        }
+
+        .content-block h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            color: #a5b4fc;
+        }
+
+        .content-block p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-num {
+            background: var(--primary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 4rem 0 6rem;
+        }
+
+        .faq-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .seo-footer-content {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .seo-footer-content h2 {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        .seo-footer-content p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 4rem 0;
+            }
+
+            .glass-container {
+                padding: 2rem;
+            }
+
+            .info-grid {
+                gap: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow-bg"></div>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                        </path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                </div>
+                <span class="logo-text">ImageToPrompt</span>
+            </div>
+            <a href="https://getimagetoprompt.com" class="btn btn-primary btn-sm">Try App Live</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-badge">⚡ Free AI Tool</div>
+                <h1 class="hero-title">Unlock the Secrets of <span class="text-gradient">Image to Prompt</span>
+                    Generation</h1>
+                <p class="hero-desc">The ultimate reverse prompt engineering tool. Simply upload any image and get a
+                    detailed description optimized for **Midjourney**, **Stable Diffusion**, and **DALL-E 3** instantly.
+                </p>
+                <div class="hero-cta">
+                    <a href="https://getimagetoprompt.com" class="btn btn-primary btn-lg">Generate Your Prompt Now
+                        🔥</a>
+                    <p class="cta-note">No sign-up. No credits. 100% Free.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Advanced Vision Features</h2>
+                    <p>Powered by GPT-4o for extreme accuracy and artistic depth.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="glass-card feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Ultra-Fast Conversion</h3>
+                        <p>Analyze complex images and generate structured prompts in seconds.</p>
+                    </div>
+                    <div class="glass-card feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>GPT-4o Intelligence</h3>
+                        <p>Understands lighting, camera angles, and textures with human-like precision.</p>
+                    </div>
+                    <div class="glass-card feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Artist-Ready Tags</h3>
+                        <p>Output includes specific stylistic tags for professional generative AI workflows.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="glass-container info-grid">
+                    <div class="content-block">
+                        <h2>What is an AI Prompt Generator?</h2>
+                        <p>An **AI Prompt Generator** is a specialized bridge between visual imagination and machine
+                            understanding. It uses advanced vision models to "reverse-engineer" pixels back into the
+                            descriptive words that an AI model needs to recreate it.</p>
+                        <p>This process, often called <strong>Reverse Prompt Engineering</strong>, is essential for
+                            creators who want to replicate styles, lighting, or compositions they find inspirational.
+                        </p>
+                    </div>
+                    <div class="content-block">
+                        <h2>How to Convert Image to Text?</h2>
+                        <div class="steps-list">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <p><strong>Upload:</strong> Drop your image into our secure upload zone.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <p><strong>Analyze:</strong> Our AI scans the composition, subject, and aesthetic.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <p><strong>Copy:</strong> Get your detailed text-to-image prompt instantly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-footer-content">
+            <div class="container">
+                <h2>The Best Tool for Prompt Engineering</h2>
+                <p>Stop guessing your prompts. Our free tool provides the most accurate **Image to Prompt** results for
+                    professional creators. Whether you are using **Midjourney v6**, **Stable Diffusion XL**, or **DALL-E
+                    3**, our generator provides the exact vocabulary needed to unlock the next level of your AI art
+                    journey.</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <div class="glass-card faq-wrapper">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="faq-grid">
+                        <div class="faq-item">
+                            <h3>Is it really free?</h3>
+                            <p>Yes. No subscriptions, no hidden tokens. Just high-quality AI prompts for everyone.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>What formats are supported?</h3>
+                            <p>You can upload PNG, JPEG, GIF, and WebP images. Max file size: 20MB.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Is my data secure?</h3>
+                            <p>Absolutely. We don't store your images. They are processed and deleted immediately.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Image to Prompt SEO | Official Tool: <a
+                    href="https://getimagetoprompt.com">getimagetoprompt.com</a></p>
+        </div>
+    </footer>
+</body>
+
+</html>
